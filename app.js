@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const hbs = require('express-handlebars');
 const _ = require('lodash');
+const myContent = require('./modules/content.js')
 
 // Initialize application
 const port = 3000
@@ -11,45 +12,40 @@ const server = app.listen(port, function() {
     console.log('Node-Playground listening on http://localhost:' + port)
 });
 
-// Temp - notes variable
-const myNotes = [
-    {
-        Title: "",
-        Note: "Add the \"Start\" script to the scripts object in package.json with \"nodemon\" specified, then use 'npm start' to start the server."
-    },
-    {
-        Title: "",
-        Note: "Use .gitignore to remove the node_modules folder from your project, use npm install to initialize dependencies from new workspace."
-    },
-    {
-        Title: "",
-        Note: "Next step is to dynamically populate the Navbar and fix the .active class assignment."
-    },
-]
-
 // Configure the view settings
 app.set('views', path.join(__dirname, 'views')); 
 app.set('view engine', 'hbs');
-app.engine('hbs', hbs( {extname: 'hbs'}));
+app.engine('hbs', hbs({
+    extname: 'hbs',
+    helpers: {
+        if_eq : function (a, b, options) {
+            console.log('a is ' + a + ', b is ' + b)
+            if (a == b) {
+                return options.fn(this)
+            } else {
+                return options.inverse(this)
+            };
+        },
+    }
+}));
 
 // Views
-let pathRequest = 'home'
 app.get('/', function(req, res) {
-    console.log(req.url, req.method, pathRequest);
+    console.log(req.url, req.method);
     res.setHeader('Content-Type','text/html');
-    res.render(pathRequest, {title: pathRequest, pathRequest: pathRequest});
+    res.render('home', {title: "Home", path: '/', navbar: myContent.navbar});
 });
 
 app.get('/about', function(req,res) {
-    res.render('about',{title:"About"});
+    res.render('about',{title:"About", path: '/about', navbar: myContent.navbar});
 });
 
 app.get('/notes', function(req,res) {
-    res.render('notes',{title:"Notes", myNotes});
+    res.render('notes',{title:"Notes", path: '/notes', navbar: myContent.navbar, notes: myContent.myNotes});
 });
 
 app.get('/createNotes', function(req,res) {
-    res.render('createNotes',{title:"New note"});
+    res.render('createNotes',{title:"New note", navbar: myContent.navbar});
 });
 
 // 404 Page, must be the final method used

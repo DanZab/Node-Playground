@@ -1,6 +1,6 @@
 <ul class="list-group">
-    {{#if myNotes}}
-        {{#each myNotes}}
+    {{#if notes}}
+        {{#each notes}}
         <li class="list-group-item">{{this.Note}}</li>
         {{/each}}
     {{else}}
@@ -8,3 +8,4 @@
     {{/if}}
 </ul>
 <a href="createNotes">Add</a>
+{{myPath}}
