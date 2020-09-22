@@ -1,13 +1,14 @@
 const express = require('express');
 const path = require('path');
 const hbs = require('express-handlebars');
+const _ = require('lodash');
 
 //Initialize application
 const port = 3000
 const app = express()
 
 const server = app.listen(port, function() {
-    console.log('Node-Playground listening on http://localhost:$(port)')
+    console.log('Node-Playground listening on http://localhost:' + port)
 });
 
 //Configure the view settings
@@ -21,8 +22,13 @@ app.engine('hbs', hbs( {extname: 'hbs'}));
 //defaultLayout: 'layout',
 //layoutsDir: __dirname + '/views/layouts/',
 //partialsDir: __dirname + '/views/partials/'
-
+let pathRequest = 'home'
 app.get('/', function(req, res) {
-    console.log(req.url, req.method);
-    res.render('home', {title: "Home"});
+    console.log(req.url, req.method, pathRequest);
+    res.setHeader('Content-Type','text/html');
+    res.render(pathRequest, {title: pathRequest, pathRequest: pathRequest});
+});
+
+app.get('/about', function(req,res) {
+    res.render('about',{title:"About"});
 });
