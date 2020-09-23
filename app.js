@@ -1,16 +1,26 @@
 const express = require('express');
 const path = require('path');
 const hbs = require('express-handlebars');
-const _ = require('lodash');
+const _ = require('lodash'); //I'm not using lodash, should remove
+const mongoose = require('mongoose');
 const myContent = require('./modules/content.js')
+const secure = require('./modules/secure.js');
+
+// Connect to database
+mongoose.connect(secure, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then((result) => {app.listen(port, function() {
+        console.log('Node-Playground listening on http://localhost:' + port);
+        console.log("Connected to database")
+    })})
+    .catch((err) => {console.log(err);});
 
 // Initialize application
 const port = 3000
 const app = express()
 
-const server = app.listen(port, function() {
-    console.log('Node-Playground listening on http://localhost:' + port)
-});
+// const server = app.listen(port, function() {
+//     console.log('Node-Playground listening on http://localhost:' + port)
+// });
 
 // Configure the view settings
 app.set('views', path.join(__dirname, 'views')); 
