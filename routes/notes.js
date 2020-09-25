@@ -36,4 +36,13 @@ router.post('/', function(req,res) {
         })
 });
 
+router.delete('/:id', function(req,res) {
+    const id = req.params.id;
+    Note.findByIdAndDelete(id)
+        .then(result => {
+            res.json({ redirect: '/notes' });
+        })
+        .catch(err => console.log(err));
+});
+
 module.exports = router

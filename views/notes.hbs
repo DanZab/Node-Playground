@@ -6,7 +6,7 @@
                 <span class="order-1 p-2">{{this.note}}</span>
                 <span class="order-2 p-2">
                     <a href="/notes/{{this._id}}"><img src="/img/pencil-2x.png"></a> 
-                    <a href="/notes/delete/{{this._id}}"><img src="/img/trash-2x.png"></a>
+                    <a class="delete" data-doc="{{this._id}}"><img src="/img/trash-2x.png"></a>
                 </span>
             </li>
             {{/if}}
@@ -16,4 +16,19 @@
     {{/if}}
 </ul>
 <a href="createNotes">Add</a>
-{{myPath}}
+
+<script>
+    const deleteThis = document.querySelectorAll('a.delete');
+
+    deleteThis.forEach((noteItem) => {
+        noteItem.addEventListener('click', (e) => {
+            const target = `/notes/${noteItem.dataset.doc}`;
+            fetch(target,{
+                method: 'DELETE'
+            })
+            .then((response) => response.json())
+            .then((data) => window.location.href = data.redirect)
+            .catch(err => console.log(err));
+        });
+    });
+</script>
