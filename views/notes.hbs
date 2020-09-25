@@ -1,7 +1,13 @@
 <ul class="list-group">
     {{#if notes}}
         {{#each notes}}
-        <li class="list-group-item">{{this.Note}}</li>
+        <li class="list-group-item">
+            <span class="order-1 p-2">{{this.note}}</span>
+            <span class="order-2 p-2">
+                <a href="notes/edit/{{this._id}}"><img src="img/pencil-2x.png"></a> 
+                <a href="notes/delete/{{this._id}}"><img src="img/trash-2x.png"></a>
+            </span>
+        </li>
         {{/each}}
     {{else}}
         <li class="list-group-item">No notes</li>
