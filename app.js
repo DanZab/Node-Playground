@@ -66,6 +66,17 @@ app.get('/notes', function(req,res) {
     //res.render('notes',{title:"Notes", path: '/notes', navbar: myContent.navbar, notes: myContent.myNotes});
 });
 
+app.get('/notes/:id', (req, res) => {
+    const id = req.params.id
+    Note.findById(id)
+        .then((result) => {
+            res.render('notes',{title:"Notes", path: '/notes', navbar: myContent.navbar, notes: result});
+        })
+        .catch ((err) => {
+            console.log(err);
+        })
+});
+
 app.post('/notes', function(req,res) {
     console.log(req.body);
     const note = new Note(req.body)
