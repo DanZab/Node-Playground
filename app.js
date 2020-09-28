@@ -6,8 +6,8 @@ const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-acce
 const mongoose = require('mongoose');
 const myContent = require('./modules/content.js');
 const secure = require('./modules/secure.js');
-const notes = require('./routes/notes.js');
-const Note = require('./models/note.js');
+const noteRoutes = require('./routes/noteRoutes.js');
+//const Note = require('./models/note.js');
 
 // Connect to database
 mongoose.connect(secure, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -43,7 +43,7 @@ app.engine('hbs', hbs({
 }));
 
 // Routes
-app.use('/notes', notes);
+app.use('/notes', noteRoutes);
 
 app.get('/', function(req, res) {
     res.setHeader('Content-Type','text/html');
@@ -61,4 +61,4 @@ app.get('/createNotes', function(req,res) {
 // 404 Page, must be the final method used
 app.use(function(req, res) {
     res.status(404).render('404', {title: "Not Found"});
-});
+}); 

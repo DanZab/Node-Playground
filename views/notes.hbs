@@ -22,7 +22,7 @@
 
     deleteThis.forEach((noteItem) => {
         noteItem.addEventListener('click', (e) => {
-            const target = `/notes/${noteItem.dataset.doc}`;
+            const target = `notes/${noteItem.dataset.doc}`;
             fetch(target,{
                 method: 'DELETE'
             })
