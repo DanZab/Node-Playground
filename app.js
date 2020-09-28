@@ -60,5 +60,5 @@ app.get('/createNotes', function(req,res) {
 
 // 404 Page, must be the final method used
 app.use(function(req, res) {
-    res.status(404).render('404', {title: "Not Found"});
+    res.status(404).render('404', {title: "Not Found", navbar: myContent.navbar});
 }); 
