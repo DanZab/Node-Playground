@@ -10,7 +10,7 @@ const noteRoutes = require('./routes/noteRoutes.js');
 //const Note = require('./models/note.js');
 
 // Connect to database
-mongoose.connect(secure, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(secure, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
     .then((result) => {app.listen(port, function() {
         console.log('Node-Playground listening on http://localhost:' + port);
         console.log("Connected to database")
@@ -52,10 +52,6 @@ app.get('/', function(req, res) {
 
 app.get('/about', function(req,res) {
     res.render('about',{title:"About", path: '/about', navbar: myContent.navbar});
-});
-
-app.get('/createNotes', function(req,res) {
-    res.render('createNotes',{title:"New note", navbar: myContent.navbar});
 });
 
 // 404 Page, must be the final method used

@@ -6,18 +6,22 @@ const Note = require('../models/note.js');
 const note_index = function (req,res) {
     Note.find().sort({ createdAt: -1 })
         .then(function(result) {
-            res.render('notes',{title:"Notes", path: '/notes', navbar: myContent.navbar, notes: result});
+            res.render('notes/notes',{title:"Notes", path: '/notes', navbar: myContent.navbar, notes: result});
         })
         .catch ((err) => {
             console.log(err);
         })
 ;}
 
+const note_create_get = function(req,res) {
+    res.render('notes/add',{title:"New note", navbar: myContent.navbar});
+};
+
 const note_details = function (req, res) {
     const id = req.params.id
     Note.findById(id)
         .then((result) => {
-            res.render('notes',{title:"Notes", path: '/notes', navbar: myContent.navbar, notes: result});
+            res.render('notes/edit',{title:"Edit Note", path: '/notes/edit', navbar: myContent.navbar, notes: result});
         })
         .catch ((err) => {
             console.log(err);
@@ -38,6 +42,16 @@ const note_create_post = function(req,res) {
         })
 };
 
+const note_update = function(req,res) {
+    const id = req.params.id;
+    const noteUpdate = req.body
+    Note.findByIdAndUpdate(id, noteUpdate)
+        .then(result => {
+            res.redirect('/notes');
+        })
+        .catch(err => console.log(err));
+}
+
 const note_delete = function(req,res) {
     const id = req.params.id;
     Note.findByIdAndDelete(id)
@@ -51,5 +65,7 @@ module.exports = {
     note_index,
     note_details,
     note_create_post,
+    note_create_get,
+    note_update,
     note_delete
 }
